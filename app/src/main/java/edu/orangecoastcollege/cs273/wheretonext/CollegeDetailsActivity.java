@@ -3,9 +3,10 @@ package edu.orangecoastcollege.cs273.wheretonext;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -53,5 +54,10 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         collegeDetailsPopulationTextView.setText("Annual Enrollment: " + thousands.format(population));
         collegeDetailsTuitionTextView.setText("In-state Tuition: " + currency.format(tuition));
         gameDetailsRatingBar.setRating(rating);
+    }
+
+
+    public void goBackToList(View v){
+        this.finish();
     }
 }

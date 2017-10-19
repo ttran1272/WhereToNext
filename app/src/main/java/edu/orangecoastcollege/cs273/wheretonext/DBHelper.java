@@ -36,9 +36,9 @@ class DBHelper extends SQLiteOpenHelper {
         String createTable = "CREATE TABLE " + DATABASE_TABLE + " ("
                 + KEY_FIELD_ID + " INTEGER PRIMARY KEY, "
                 + FIELD_NAME + " TEXT, "
-                + FIELD_POPULATION + " TEXT, "
-                + FIELD_TUITION + " TEXT, "
-                + FIELD_RATING + " TEXT, "
+                + FIELD_POPULATION + " INTEGER, "
+                + FIELD_TUITION + " DOUBLE, "
+                + FIELD_RATING + " DOUBLE, "
                 + FIELD_IMAGE_NAME + " TEXT" + ")";
 
         database.execSQL(createTable);
@@ -75,19 +75,27 @@ class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
     public ArrayList<College> getAllColleges() {
         ArrayList<College> collegeList = new ArrayList<>();
         SQLiteDatabase database = this.getReadableDatabase();
 
         // TODO:  Write the code to get all the colleges from the database.
+
         Cursor cursor = database.query(DATABASE_TABLE,
                 new String[] {KEY_FIELD_ID, FIELD_NAME, FIELD_POPULATION, FIELD_TUITION, FIELD_RATING, FIELD_IMAGE_NAME},
                 null, null, null, null, null);
+
+
+        //Cursor cursor = database.rawQuery("Select * from " + DATABASE_TABLE, null);
+
         if (cursor.moveToFirst())
         {
             do {
                 College college = new College(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getDouble(3),
                         cursor.getDouble(4), cursor.getString(5));
+                collegeList.add(college);
+
             } while(cursor.moveToNext());
         }
 

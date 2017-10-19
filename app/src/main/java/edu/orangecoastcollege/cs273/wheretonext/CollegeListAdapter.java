@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -27,6 +27,7 @@ public class CollegeListAdapter extends ArrayAdapter<College> {
     private List<College> mCollegesList = new ArrayList<>();
     private int mResourceId;
 
+    private LinearLayout mLayout;
 
 
     /**
@@ -56,40 +57,42 @@ public class CollegeListAdapter extends ArrayAdapter<College> {
 
         LayoutInflater inflater =
                 (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
         View view = inflater.inflate(mResourceId, null);
 
 
         // TODO:  Write the code to correctly inflate the view (college_list_item) with
         // TODO:  all widgets filled with the appropriate College information.
 
-        ListView collegeListView = (ListView) view.findViewById(R.id.collegeListView);
+        mLayout = (LinearLayout) view.findViewById(R.id.collegeListLinearLayout);
 
         ImageView listItemImageView = (ImageView) view.findViewById(R.id.collegeListImageView) ;
         TextView listItemCollegeNameTextView = (TextView) view.findViewById(R.id.collegeListNameTextView) ;
         RatingBar listItemCollegeRatingBar = (RatingBar) view.findViewById(R.id.collegeListRatingBar) ;
 
-        College selectedCollege = mCollegesList.get(pos);
+        College aCollege = mCollegesList.get(pos);
 
         // retrieve the college name
-        listItemCollegeNameTextView.setText(selectedCollege.getName());
+        listItemCollegeNameTextView.setText(aCollege.getName());
 
         // retrieve the rating
-        listItemCollegeRatingBar.setNumStars(5);
-        listItemCollegeRatingBar.setRating((float)selectedCollege.getRating());
+        listItemCollegeRatingBar.setRating((float)aCollege.getRating());
 
         // Use the AssertManager to retrieve the image
         AssetManager am = mContext.getAssets();
 
         try
         {
-            InputStream stream = am.open(selectedCollege.getImageName());
-            Drawable image = Drawable.createFromStream(stream, selectedCollege.getName());
+            InputStream stream = am.open(aCollege.getImageName());
+            Drawable image = Drawable.createFromStream(stream, aCollege.getImageName());
             listItemImageView.setImageDrawable(image);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+
+        mLayout.setTag(aCollege);
 
         return view;
     }
